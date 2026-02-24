@@ -79,7 +79,7 @@ frontend/
 
 1. Clonar repositorio
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/Sthephani-Platero/pymes-platform-frontend.git
 cd frontend
 Instalar dependencias
 
