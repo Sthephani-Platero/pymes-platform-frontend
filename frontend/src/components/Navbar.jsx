@@ -1,36 +1,70 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  return (
-    <nav style={styles.nav}>
-      <h2 style={styles.logo}>Pymes Platform</h2>
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
-      <div>
-        <Link to="/login" style={styles.link}>Login</Link>
-        <Link to="/register" style={styles.link}>Registrarse</Link>
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  return (
+    <nav className="bg-white shadow-md">
+
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        {/* Logo */}
+        <h2
+          onClick={() => navigate("/")}
+          className="text-xl font-bold text-indigo-600 cursor-pointer"
+        >
+          Pymes Platform
+        </h2>
+
+        {/* Links */}
+        <div className="flex items-center space-x-6">
+
+          {!token ? (
+            <>
+              <Link
+                to="/login"
+                className="text-gray-600 hover:text-indigo-600 font-medium transition"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold"
+              >
+                Registrarse
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/dashboard"
+                className="text-gray-600 hover:text-indigo-600 font-medium transition"
+              >
+                Dashboard
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition font-semibold"
+              >
+                Logout
+              </button>
+            </>
+          )}
+
+        </div>
+
       </div>
+
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "15px 40px",
-    backgroundColor: "#1e293b",
-    color: "white",
-  },
-  logo: {
-    margin: 0,
-  },
-  link: {
-    color: "white",
-    marginLeft: "20px",
-    textDecoration: "none",
-    fontWeight: "bold",
-  }
-};
 
 export default Navbar;
