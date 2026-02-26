@@ -1,17 +1,18 @@
 // App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 
 // Componente para rutas privadas
 const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token"); // O donde guardes tu token
+  const token = localStorage.getItem("token"); 
   return token ? children : <Navigate to="/login" replace />;
 };
 
-// Componente para rutas públicas (login/register)
+// Componente para rutas públicas (login/register/home)
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? <Navigate to="/dashboard" replace /> : children;
@@ -22,19 +23,21 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* Muestra Navbar solo si hay token */}
+      {/* Navbar solo visible si hay token */}
       {token && <Navbar />}
 
       <Routes>
-        {/* Rutas públicas */}
+        {/* Página de inicio */}
         <Route
           path="/"
           element={
             <PublicRoute>
-              <Login />
+              <Home />
             </PublicRoute>
           }
         />
+
+        {/* Login */}
         <Route
           path="/login"
           element={
@@ -43,6 +46,8 @@ function App() {
             </PublicRoute>
           }
         />
+
+        {/* Registro */}
         <Route
           path="/register"
           element={
@@ -52,7 +57,7 @@ function App() {
           }
         />
 
-        {/* Rutas privadas */}
+        {/* Dashboard (ruta privada) */}
         <Route
           path="/dashboard"
           element={
@@ -62,8 +67,8 @@ function App() {
           }
         />
 
-        {/* Ruta fallback */}
-        <Route path="*" element={<Navigate to={token ? "/dashboard" : "/login"} />} />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to={token ? "/dashboard" : "/"} />} />
       </Routes>
     </BrowserRouter>
   );

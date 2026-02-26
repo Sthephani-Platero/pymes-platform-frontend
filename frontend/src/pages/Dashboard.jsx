@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDashboard } from "../services/auth";
+import Navbar from "../components/Navbar";
 
 function Dashboard() {
   const [data, setData] = useState(null);
@@ -8,7 +9,6 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       navigate("/login");
       return;
@@ -32,43 +32,42 @@ function Dashboard() {
     navigate("/login");
   };
 
-  if (!data) return <p>Cargando dashboard...</p>;
+  if (!data) return <p className="p-8 text-gray-600">Cargando dashboard...</p>;
 
   return (
-    <div style={styles.container}>
-      <h2>{data.message}</h2>
+    <div className="min-h-screen bg-gray-100">
+      {/* Navbar */}
+      <Navbar />
 
-      <div style={styles.card}>
-        <p><strong>Usuario:</strong> {data.user.name}</p>
-        <p><strong>Email:</strong> {data.user.email}</p>
+      {/* Contenido principal */}
+      <div className="max-w-4xl mx-auto p-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          {data.message}
+        </h2>
+
+        {/* Tarjeta de usuario */}
+        <div className="bg-white shadow-lg rounded-xl p-6 mb-6 flex flex-col md:flex-row md:justify-between md:items-center">
+          <div className="mb-4 md:mb-0">
+            <p className="text-gray-700 text-lg">
+              <span className="font-semibold">Usuario:</span> {data.user.name}
+            </p>
+            <p className="text-gray-700 text-lg">
+              <span className="font-semibold">Email:</span> {data.user.email}
+            </p>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-semibold transition duration-200"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+
+        {/* Secciones del dashboard */}
       </div>
-
-      <button onClick={handleLogout} style={styles.button}>
-        Cerrar sesión
-      </button>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: "40px",
-  },
-  card: {
-    backgroundColor: "#f3f4f6",
-    padding: "20px",
-    borderRadius: "10px",
-    marginTop: "20px",
-    marginBottom: "20px",
-  },
-  button: {
-    padding: "10px 20px",
-    backgroundColor: "#ef4444",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer"
-  }
-};
 
 export default Dashboard;
