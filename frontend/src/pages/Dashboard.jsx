@@ -51,9 +51,9 @@ function Dashboard() {
 
         // Determinar días de la semana hasta hoy
         const today = new Date();
-        const dayIndex = today.getDay(); // 0 = domingo
+        const dayIndex = today.getDay(); 
         const monday = new Date(today);
-        monday.setDate(today.getDate() - ((dayIndex + 6) % 7)); // lunes
+        monday.setDate(today.getDate() - ((dayIndex + 6) % 7)); 
         const daysPassed = ((dayIndex + 6) % 7) + 1;
 
         // Factores proporcionales (para repartir totales en 7 días)
