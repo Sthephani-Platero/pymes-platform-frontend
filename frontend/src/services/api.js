@@ -18,3 +18,7 @@ export const fetchComments = async () => {
   const res = await api.get("/comments");
   return res.data;
 };
+
+export const getDashboard = (category) => {
+  return api.get(`/dashboard?category=${category}`);
+};
